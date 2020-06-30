@@ -1,0 +1,24 @@
+@import '../../../../../vars.scss';
+
+.WinnerSentimentField {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .donutchart-track{
+    fill: transparent;
+    stroke: $buy;
+    stroke-width: 26;
+  }
+  .donutchart-indicator {
+    fill: transparent;
+    stroke: $sell;
+    stroke-width: 26;
+    stroke-dasharray: 0 10000;
+    transition: stroke-dasharray .3s ease;
+  }
+
+  .text {
+    margin-left: 10px;
+  }
+}

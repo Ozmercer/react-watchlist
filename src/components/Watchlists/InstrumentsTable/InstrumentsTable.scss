@@ -1,0 +1,111 @@
+@import '../../../vars.scss';
+
+.InstrumentsTable {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  font-size: 0.9rem;
+
+  .scroll {
+    width: 100%;
+  }
+
+  .frozen {
+    position: relative;
+    z-index: 1;
+
+    .td:nth-child(1) {
+        margin-right: 60px;
+    }
+
+    .marketItem {
+      background-color: #eaeaf4;
+      border-right: 1px solid #e1e1ee;
+    }
+  }
+
+  .marketItem, .titles {
+    min-width: fit-content;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px 10px;
+    border-bottom: 1px solid $watchlist-border;
+    position: relative;
+
+    .td {
+      width: 100%;
+      min-width: 130px;
+      padding-left: 5px;
+      text-align: center;
+
+      &.trade {
+        min-width: 170px;
+      }
+
+      &.thin {
+        min-width: 80px;
+      }
+
+      &.static {
+        width: 130px;
+      }
+
+      &.rsi {
+        min-width: 50px;
+        width: 50px;
+        padding: 0 10px 0 0;
+      }
+    }
+
+    &.frozen {
+      border-right: 1px solid #BFBFCC;
+    }
+  }
+
+  .titles {
+    align-items: flex-end;
+    padding: 0 10px 8px;
+    background-color: white;
+
+    .td.trade {
+      display: flex;
+      justify-content: space-between;
+
+      .size {
+        margin-right: 15px;
+      }
+
+      .actions {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+      }
+    }
+
+    .td:not(:first-child) {
+      position: relative;
+      &::after {
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 1px;
+        top: 50%;
+        left: -5px;
+        background: linear-gradient(45deg, #cbcbcb, transparent);
+      }
+    }
+  }
+
+  .thead, .tbody {
+    display: flex;
+    min-height: 39px;
+  }
+
+  .tbody {
+    overflow: scroll;
+  }
+}

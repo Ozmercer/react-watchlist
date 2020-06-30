@@ -1,0 +1,30 @@
+@import '../../../../../vars.scss';
+
+.ClientPostionDataContainer {
+  display: flex;
+  justify-content: center;
+
+  span {
+    width: 100px;
+  }
+
+  .noPositions {
+    color: $positions-indicator;
+  }
+
+  .profit {
+    color: $buy;
+  }
+  .loss {
+    color: $sell;
+  }
+
+  .numberOfPositionsIndicator {
+    background-color: $positions-indicator;
+    padding: 2px;
+    width: 30px;
+    color: $positions-indicator-text;
+    font-weight: bold;
+  }
+
+}

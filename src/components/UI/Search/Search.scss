@@ -1,0 +1,11 @@
+@import '../../../vars';
+
+#WatchListMarketFilter {
+  border-radius: 14px;
+  border: 1px solid $watchlist-border;
+  padding: 2px 2px 2px 6px;
+  outline: none;
+  font-style: italic;
+  width: 150px;
+  height: 15px;
+}
