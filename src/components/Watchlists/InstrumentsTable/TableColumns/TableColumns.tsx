@@ -81,7 +81,7 @@ const TableColumns = (props: Props) => {
                         row.push(getSpan(<RsiField rsi={instrument.rsi}/>, titleIndex, title.classes));
                         break;
                     default:
-                        row.push(getSpan(instrument[title.name], titleIndex, title.classes));
+                        row.push(getSpan(instrument.value, titleIndex, title.classes));
                 }
             });
 
