@@ -20,7 +20,7 @@ const MarketName = (props: Props) => {
 
   const changeMarketName = (event) => {
     const element = event.currentTarget as HTMLInputElement;
-    if(event.keyCode === 13 || event.type === 'blur') {
+    if(event.keyCode === 13 || event.type === 'blur') {       // keyCode 13 = ENTER
       event.preventDefault();
       if(element.value !== '') {
         props.setNewMarketName(props.marketName, element.value);
@@ -30,6 +30,8 @@ const MarketName = (props: Props) => {
         setMarketName(props.marketName);
       }
       setIsEditing(false);
+    } else if (event.keyCode === 27) {                        // keyCode 27 = ESC
+      setIsEditing(false)
     }
   };
 
@@ -41,6 +43,8 @@ const MarketName = (props: Props) => {
           onBlur={changeMarketName}
           id='nickNameInput'
           defaultValue={marketNamesPreference || marketName}
+          placeholder={marketName}
+          autoFocus
         /> :
         <span>{marketNamesPreference || marketName}</span>
       }
