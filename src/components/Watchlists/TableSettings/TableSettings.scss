@@ -7,15 +7,39 @@
   background-color: #fff;
   z-index: 3;
   border: 1px solid #9696a3;
-  padding: 10px;
+  padding: 10px 10px 0;
+
+  .head {
+    display: flex;
+    justify-content: space-between;
+
+    .btn-wrapper {
+      display: flex;
+      align-items: center;
+      width: 30px;
+      height: 30px;
+      button {
+        background-color: transparent;
+        border: none;
+        font-weight: 700;
+        &:focus {
+        outline: none;
+      }
+        img {
+          width: 100%;
+        }
+      }
+    }
+  }
 
   .cols {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+
     &.titles {
       font-weight: 700;
     }
-
     .hidden, .frozen {
       width: 120px;
       text-align: center;
@@ -24,13 +48,16 @@
       text-align: left;
       width: 100%;
     }
+    &.disabled {
+      cursor: not-allowed;
+      background-color: #f5f2f2;
+    }
   }
 
-  ul {
-    padding: 0;
-    input[type=checkbox] {
-      cursor: pointer;
-    }
+  .titles-list {
+    max-height: 250px;
+    overflow: auto;
+    margin-top: 10px;
   }
 }
 

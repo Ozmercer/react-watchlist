@@ -21,7 +21,7 @@ const CandleStickGraph = (props: Props) => {
   return(
     <div className={classes.join(' ')}>
       <hr style={{width: leftLine}} />
-      <div  id='rectangle'/>
+      <div id='rectangle'/>
       <hr style={{width: rightLine}} />
       <div className='CandleStickGraph-container_labels'>
         <span>{low}</span>

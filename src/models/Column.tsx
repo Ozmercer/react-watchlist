@@ -5,4 +5,5 @@ export interface Column {
     frozen: boolean;
     hidden: boolean;
     id: number;
+    disabled?: boolean;
 }

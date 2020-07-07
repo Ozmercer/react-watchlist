@@ -24,6 +24,7 @@ interface Instrument {
     sparklineWeek: number[];
     sparklineMonth: number[];
     rsi: string;
+    value: any;
 }
 
 export default Instrument;

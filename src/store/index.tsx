@@ -1,11 +1,5 @@
-import Instrument from "../models/Instrument";
-import {Column} from "../models/Column";
+import {WatchlistState} from "./reducer/reducer";
 
 export interface RootState {
-  watchlist: {
-    instruments: Instrument[],
-    filteredInstruments: Instrument[],
-    is1Click: boolean,
-    columns: Column[]
-  }
+  watchlist: WatchlistState
 }

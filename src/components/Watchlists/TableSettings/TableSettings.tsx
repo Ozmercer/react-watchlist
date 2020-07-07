@@ -15,21 +15,25 @@ const reorder = (list, startIndex, endIndex): Column[] => {
     return result as Column[];
 };
 
-const grid = 8;
-
 const getItemStyle = (isDragging, draggableStyle) => ({
     // some basic styles to make the items look a bit nicer
     userSelect: 'none',
-    margin: `0 0 ${grid}px 0`,
+    borderRadius: '5px',
+    padding: '1px',
+    fontSize: '0.8rem',
+    lineHeight: '0.8rem',
     // change background colour if dragging
-    background: isDragging ? "lightgreen" : "initial",
+    background: isDragging ? "#dbffdd" : "initial",
 
     // styles we need to apply on draggables
     ...draggableStyle
 });
 
+interface Props {
+    close(): void;
+}
 
-const TableSettings = () => {
+const TableSettings = (props: Props) => {
     const dispatch = useDispatch();
     const columns = useSelector((state: RootState) => state.watchlist.columns);
     const [settingItems, setSettingItems] = useState<JSX.Element[]>();
@@ -39,8 +43,11 @@ const TableSettings = () => {
     }, [dispatch]);
 
     const onDragEnd = (result) => {
+        const frozenLength = columns.filter(col => col.frozen).length;
+        const draggedCol = columns.find(col => col.id === +result.draggableId);
+
         // dropped outside the list
-        if (!result.destination) {
+        if (!result.destination || draggedCol.disabled) {
             return;
         }
 
@@ -50,9 +57,7 @@ const TableSettings = () => {
             result.destination.index
         );
 
-        const frozenLength = columns.filter(col => col.frozen).length;
-        const draggedCol = columns.find(col => col.id === +result.draggableId);
-        if (draggedCol.frozen && result.destination.index >= frozenLength) {
+        if (draggedCol.frozen && result.destination.index >= frozenLength - 1) {
             items[result.destination.index].frozen = false;
         } else if (!draggedCol.frozen && result.destination.index < frozenLength) {
             items[result.destination.index].frozen = true;
@@ -73,9 +78,9 @@ const TableSettings = () => {
             >
                 <SettingsItem
                     label={column.label}
-                    name={column.name}
                     hidden={column.hidden}
                     frozen={column.frozen}
+                    disabled={column.disabled}
                     changed={state => itemChangeHandler(state, column.id)}/>
             </div>
         )
@@ -84,7 +89,7 @@ const TableSettings = () => {
     useEffect(() => {
         const frozenItems = columns.filter(item => item.frozen)
             .map((column, i) => (
-            <Draggable key={column.id} draggableId={column.id.toString()} index={i}>
+            <Draggable key={column.id} draggableId={column.id.toString()} index={i} isDragDisabled={column.disabled}>
                 {setDraggableItem(column)}
             </Draggable>
         ));
@@ -100,26 +105,33 @@ const TableSettings = () => {
     return (
         <>
             <div className="TableSettings" onClick={event => event.stopPropagation()}>
-                <h3>Settings</h3>
+                <div className="head">
+                    <h3>Settings</h3>
+                    <div className="btn-wrapper">
+                        <button onClick={props.close}><img src="/assets/close.svg" alt="close"/></button>
+                    </div>
+                </div>
                 <hr/>
                 <div className="cols titles">
                     <span className="name">Name</span>
                     <span className="hidden">hidden</span>
                     <span className="frozen">frozen</span>
                 </div>
-                <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId="dropabble">
-                        {(provided) => (
-                            <div
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}>
-                                {settingItems}
-                                {provided.placeholder}
-                            </div>
-                        )}
+                <div className="titles-list">
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <Droppable droppableId="dropabble">
+                            {(provided) => (
+                                <div
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}>
+                                    {settingItems}
+                                    {provided.placeholder}
+                                </div>
+                            )}
 
-                    </Droppable>
-                </DragDropContext>
+                        </Droppable>
+                    </DragDropContext>
+                </div>
             </div>
             <div className="overlay"/>
         </>

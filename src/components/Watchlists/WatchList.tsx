@@ -22,10 +22,6 @@ const WatchList = () => {
         dispatch(actions.setFilteredInstruments(filteredMarkets));
     };
 
-    const settingsClickHandler = () => {
-        setShowSettings(prevState => !prevState);
-    };
-
     return (
         <React.Fragment>
             <div className='WatchList'>
@@ -43,10 +39,10 @@ const WatchList = () => {
                         </div>
                     </div>
                     <div className="right">
-                        <div className="settings" onClick={settingsClickHandler}>
+                        <div className="settings" onClick={()=> setShowSettings(prevState => !prevState)}>
                             <img src="assets/settings.svg" alt="settings" height={20}/>
                             <div className="settings-popup" hidden={!showSettings}>
-                                <TableSettings/>
+                                <TableSettings close={()=> setShowSettings(prevState => !prevState)}/>
                             </div>
                         </div>
                     </div>

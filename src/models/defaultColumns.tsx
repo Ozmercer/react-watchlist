@@ -6,13 +6,16 @@ const defaultColumns: Column[] = [                                              
         label: 'Market',
         frozen: true,
         hidden: false,
+        classes: ['market'],
         id: Math.random(),
+        disabled: true,
     },
     {
         name: 'quickTrade',
         label: 'Trade',
         frozen: true,
         hidden: false,
+        classes: ['trade'],
         id: Math.random(),
     },
     {
@@ -27,7 +30,6 @@ const defaultColumns: Column[] = [                                              
         label: 'Change (Week)',
         frozen: true,
         hidden: true,
-        classes: ['thin'],
         id: Math.random(),
     },
     {
@@ -35,7 +37,6 @@ const defaultColumns: Column[] = [                                              
         label: 'Change (Month)',
         frozen: true,
         hidden: true,
-        classes: ['thin'],
         id: Math.random(),
     },
     {
@@ -108,6 +109,20 @@ const defaultColumns: Column[] = [                                              
         classes: ['static', 'candle'],
         id: Math.random(),
     },
+    {name: 'aroon', label: 'Aroon', frozen: false, hidden: true, id: Math.random(), classes: ['thin']},
+    {name: 'atr', label: 'Avarage True Range', frozen: false, hidden: true, id: Math.random(), classes: ['thin']},
+    {name: '%B', label: 'Bollinger %B', frozen: false, hidden: true, id: Math.random(), classes: ['thin']},
+    {name: 'chaikin', label: 'Chaikin Volatility', frozen: false, hidden: true, id: Math.random(), classes: ['thin']},
+    {name: 'cci', label: 'Commodity Channel Index', frozen: false, hidden: true, id: Math.random()},
+    {name: 'dm', label: 'Directional Movement', frozen: false, hidden: true, id: Math.random(), classes: ['thin']},
+    {name: 'ichimoku', label: 'Ichimoku', frozen: false, hidden: true, id: Math.random(), classes: ['thin']},
+    {name: 'KDJ', label: 'KDJ', frozen: false, hidden: true, id: Math.random(), classes: ['thin']},
+    {name: 'MACD', label: 'MACD', frozen: false, hidden: true, id: Math.random(), classes: ['thin']},
+    {name: 'momentum', label: 'Momentum', frozen: false, hidden: true, id: Math.random(), classes: ['thin']},
+    {name: 'pivot', label: 'Pivot Point', frozen: false, hidden: true, id: Math.random(), classes: ['thin']},
+    {name: 'sd', label: 'Standard Deviation', frozen: false, hidden: true, id: Math.random(), classes: ['thin']},
+    {name: 'vol', label: 'Volume', frozen: false, hidden: true, id: Math.random(), classes: ['thin']},
+    {name: '%R', label: 'Williams %R', frozen: false, hidden: true, id: Math.random(), classes: ['thin']},
 ];
 
 export default defaultColumns;

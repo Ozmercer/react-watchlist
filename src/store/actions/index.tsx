@@ -4,4 +4,5 @@ export {
     set1Click,
     editColumns,
     reorderColumns,
+    setMarketCustomNames,
 } from './watchlist'

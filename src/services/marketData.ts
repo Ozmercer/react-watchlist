@@ -45,10 +45,10 @@ const userWatchListMarketInfo = () => {
     };
 
     const randomPercent = () => {
-        return (Math.random() * 100).toFixed()
+        return (Math.random() * 80 + 10).toFixed()
     };
 
-    const getGrapgh = (open, close, high, low): number[] => {
+    const getGraph = (open, close, high, low): number[] => {
         let points = [];
 
         for (let i = 0; i < 10; i++) {
@@ -87,10 +87,11 @@ const userWatchListMarketInfo = () => {
               week: dataWeek,
               month: dataMonth,
             },
-            sparklineDay: getGrapgh(dataDay.open, dataDay.close, dataDay.high, dataDay.low),
-            sparklineWeek: getGrapgh(dataWeek.open, dataWeek.close, dataWeek.high, dataWeek.low),
-            sparklineMonth: getGrapgh(dataMonth.open, dataMonth.close, dataMonth.high, dataMonth.low),
+            sparklineDay: getGraph(dataDay.open, dataDay.close, dataDay.high, dataDay.low),
+            sparklineWeek: getGraph(dataWeek.open, dataWeek.close, dataWeek.high, dataWeek.low),
+            sparklineMonth: getGraph(dataMonth.open, dataMonth.close, dataMonth.high, dataMonth.low),
             rsi: randomPercent(),
+            value: randomPercent(), // for dummy fields
         }
     });
 };

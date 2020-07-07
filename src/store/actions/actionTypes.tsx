@@ -7,6 +7,7 @@ export enum ActionTypes {
   SET_1_CLICK = 'SET_1_CLICK',
   EDIT_COLUMNS = 'EDIT_COLUMNS',
   REORDER_COLUMNS = 'REORDER_COLUMNS',
+  SET_MARKET_CUSTOM_NAMES = 'SET_MARKET_CUSTOM_NAMES',
 }
 
 interface GetInstruments {
@@ -29,4 +30,9 @@ interface RedorderColumns {
   columns: Column[];
 }
 
-export type WatchlistActionTypes = GetInstruments | Set1Click | EditColumns | RedorderColumns;
+interface SetMarketCustomNames {
+  type: ActionTypes;
+  map: Map<string, string>;
+}
+
+export type WatchlistActionTypes = GetInstruments | Set1Click | EditColumns | RedorderColumns | SetMarketCustomNames;

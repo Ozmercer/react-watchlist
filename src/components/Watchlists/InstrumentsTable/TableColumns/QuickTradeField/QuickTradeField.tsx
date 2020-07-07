@@ -15,41 +15,33 @@ const QuickTradeField = (props: Props) => {
     const [price, setPrice] = useState(null);
     const [lotSize, setLotSize] = useState(null);
 
-    let input = <span className="size" />;
+    let input = <span className="size"/>;
 
     if (is1Click) {
         input = (
             <input
-            className="size"
-            type="number"
-            min={0}
-            max={50}
-            step={0.5}
-            value={size}
-            onChange={event => setSize(+event.target.value)}/>
+                className="size"
+                type="number"
+                min={0}
+                max={50}
+                step={0.5}
+                value={size}
+                onChange={event => setSize(+event.target.value)}/>
         )
     }
 
     const transformPrice = (price: string) => {
-        let leadBreak = 3;
-        let tailbreak = 5;
-        if (price.length > 7) {
-            leadBreak++;
-            tailbreak++;
-        }
-        if (price.length < 7) {
-            leadBreak--;
-            tailbreak--;
-        }
+        let leadBreak = price.length - 4;
+        let tailbreak = price.length - 2;
         const lead = <small>{price.slice(0, leadBreak)}</small>;
         const bold = <span style={{'fontSize': '1rem'}}>{price.slice(leadBreak, tailbreak)}</span>;
-        const tail = <small>{price.slice(tailbreak)}</small> ;
+        const tail = <small>{price.slice(tailbreak)}</small>;
 
         return <span>{lead}{bold}{tail}</span>
     };
 
     const submitHandler = (direction: string) => {
-        if (!size) {
+        if (!size || !is1Click) {
             return;
         }
         setLotSize(size);
@@ -73,7 +65,7 @@ const QuickTradeField = (props: Props) => {
     if (direction) {
         popup = (
             <div className="popup">
-            {direction} {lotSize} @ {price}
+                {direction} {lotSize} @ {price}
             </div>
         )
     }
@@ -82,8 +74,18 @@ const QuickTradeField = (props: Props) => {
         <div className="QuickTradeField">
             {input}
             <div className={classes.join(' ')}>
-                <button disabled={is1Click && !size} onClick={() => submitHandler('Sell')}>{transformPrice(props.instrument.ask.toString())}</button>
-                <button disabled={is1Click && !size} onClick={() => submitHandler('Buy')}>{transformPrice(props.instrument.bid.toString())}</button>
+                <button
+                    className="sell"
+                    disabled={is1Click && !size}
+                    onClick={() => submitHandler('Sell')}>
+                    {transformPrice(props.instrument.ask.toString())}
+                </button>
+                <button
+                    className="buy"
+                    disabled={is1Click && !size}
+                    onClick={() => submitHandler('Buy')}>
+                    {transformPrice(props.instrument.bid.toString())}
+                </button>
             </div>
             {popup}
         </div>

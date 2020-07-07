@@ -1,12 +1,12 @@
 import React from 'react';
 
 interface Props {
-    name: string;
     label: string;
     frozen: boolean;
     hidden: boolean;
+    disabled?: boolean;
 
-    changed(state: {hidden: boolean; frozen: boolean}): void;
+    changed(state: { hidden: boolean; frozen: boolean }): void;
 }
 
 const SettingItem = (props: Props) => {
@@ -19,11 +19,25 @@ const SettingItem = (props: Props) => {
         props.changed(changedObj);
     };
 
+    const classes = ['cols', props.disabled && 'disabled'];
+
     return (
-        <div className="cols">
+        <div className={classes.join(' ')}>
             <span className="name">{props.label}</span>
-            <span className="hidden"><input type="checkbox" checked={props.hidden}  onChange={event => onChangeHandler({hidden: event.target.checked})} /></span>
-            <span className="frozen"><input type="checkbox" checked={props.frozen}  onChange={event => onChangeHandler({frozen: event.target.checked})} /></span>
+            <span className="hidden">
+                <input
+                    disabled={props.disabled}
+                    type="checkbox"
+                    checked={props.hidden}
+                    onChange={event => onChangeHandler({hidden: event.target.checked})}/>
+            </span>
+            <span className="frozen">
+                <input
+                    disabled={props.disabled}
+                    type="checkbox"
+                    checked={props.frozen}
+                    onChange={event => onChangeHandler({frozen: event.target.checked})}/>
+            </span>
         </div>
     );
 };

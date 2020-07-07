@@ -9,14 +9,21 @@ interface Action {
     [key: string]: any;
 }
 
-interface WatchlistState {
+export interface WatchlistState {
     instruments: Instrument[];
     filteredInstruments: Instrument[];
     is1Click: boolean;
     columns: Column[];
+    marketCustomNamesMap: Map<string, string>;
 }
 
-const initialState: WatchlistState = {instruments: [], filteredInstruments: [], is1Click: true, columns: defaultColumns};
+const initialState: WatchlistState = {
+    instruments: [],
+    filteredInstruments: [],
+    is1Click: true,
+    columns: defaultColumns,
+    marketCustomNamesMap: new Map<string, string>(JSON.parse(localStorage.getItem('marketNamesPreference'))),
+};
 
 const setInstruments = (state: WatchlistState, action: Action) => {
   return updateObject(state, {instruments: action.instruments})
@@ -31,7 +38,9 @@ const set1Click = (state: WatchlistState, action: Action) => {
 };
 
 const editColumns = (state: WatchlistState, action: Action) => {
-    const columns = [...state.columns];
+    const frozenColumns = [...state.columns.filter(col => col.frozen)];
+    const otherColumns = [...state.columns.filter(col => !col.frozen)];
+    const columns = [...frozenColumns, ...otherColumns];
     let updatedColumn: {} = columns.find(column => column.id === action.id);
     const updatedColumnIdx = columns.findIndex(column => column.id === action.id);
     updatedColumn = updateObject(updatedColumn, action.state);
@@ -43,6 +52,10 @@ const editColumns = (state: WatchlistState, action: Action) => {
 const reorderColumns = (state: WatchlistState, action: Action) => {
     return updateObject(state, {columns: action.columns});
 };
+const setMarketCustomNames = (state: WatchlistState, action: Action) => {
+    localStorage.setItem('marketNamesPreference', JSON.stringify(Array.from(action.map)));
+    return updateObject(state, {map: action.map})
+};
 
 const reducer = ((state = initialState, action: Action) => {
     switch (action.type) {
@@ -51,6 +64,7 @@ const reducer = ((state = initialState, action: Action) => {
     case ActionTypes.SET_1_CLICK: return set1Click(state, action);
     case ActionTypes.EDIT_COLUMNS: return editColumns(state, action);
     case ActionTypes.REORDER_COLUMNS: return reorderColumns(state, action);
+    case ActionTypes.SET_MARKET_CUSTOM_NAMES: return setMarketCustomNames(state, action);
     default: return state
   }
 });
