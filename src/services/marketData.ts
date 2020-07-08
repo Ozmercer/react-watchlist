@@ -48,7 +48,8 @@ const userWatchListMarketInfo = () => {
         return (Math.random() * 80 + 10).toFixed()
     };
 
-    const getGraph = (open, close, high, low): number[] => {
+    const getGraph = (data): number[] => {
+        const {open, close, high, low} = data;
         let points = [];
 
         for (let i = 0; i < 10; i++) {
@@ -72,6 +73,9 @@ const userWatchListMarketInfo = () => {
         const dataWeek = getData(baseValueWeek);
         const dataMonth = getData(baseValueMonth);
         return {
+            dataDay,
+            dataWeek,
+            dataMonth,
             instrumentName: name,
             changeDay: `${dataDay.change > 0 ? '+' : ''}${(dataDay.change * 100).toFixed(1)}%`,
             changeWeek: `${dataWeek.change > 0 ? '+' : ''}${(dataWeek.change * 100).toFixed(1)}%`,
@@ -87,9 +91,9 @@ const userWatchListMarketInfo = () => {
               week: dataWeek,
               month: dataMonth,
             },
-            sparklineDay: getGraph(dataDay.open, dataDay.close, dataDay.high, dataDay.low),
-            sparklineWeek: getGraph(dataWeek.open, dataWeek.close, dataWeek.high, dataWeek.low),
-            sparklineMonth: getGraph(dataMonth.open, dataMonth.close, dataMonth.high, dataMonth.low),
+            sparklineDay: getGraph(dataDay),
+            sparklineWeek: getGraph(dataWeek),
+            sparklineMonth: getGraph(dataMonth),
             rsi: randomPercent(),
             value: randomPercent(), // for dummy fields
         }

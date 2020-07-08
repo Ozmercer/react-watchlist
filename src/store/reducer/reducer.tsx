@@ -14,7 +14,7 @@ export interface WatchlistState {
     filteredInstruments: Instrument[];
     is1Click: boolean;
     columns: Column[];
-    marketCustomNamesMap: Map<string, string>;
+    marketCustomNamesMap: {[key: string]: string};
 }
 
 const initialState: WatchlistState = {
@@ -22,7 +22,7 @@ const initialState: WatchlistState = {
     filteredInstruments: [],
     is1Click: true,
     columns: defaultColumns,
-    marketCustomNamesMap: new Map<string, string>(JSON.parse(localStorage.getItem('marketNamesPreference'))),
+    marketCustomNamesMap: JSON.parse(localStorage.getItem('marketNamesPreference')) || {},
 };
 
 const setInstruments = (state: WatchlistState, action: Action) => {
@@ -53,8 +53,8 @@ const reorderColumns = (state: WatchlistState, action: Action) => {
     return updateObject(state, {columns: action.columns});
 };
 const setMarketCustomNames = (state: WatchlistState, action: Action) => {
-    localStorage.setItem('marketNamesPreference', JSON.stringify(Array.from(action.map)));
-    return updateObject(state, {map: action.map})
+    localStorage.setItem('marketNamesPreference', JSON.stringify(action.map));
+    return updateObject(state, {marketCustomNamesMap: action.map})
 };
 
 const reducer = ((state = initialState, action: Action) => {

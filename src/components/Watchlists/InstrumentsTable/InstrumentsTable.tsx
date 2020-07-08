@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import TableColumns from "./TableColumns/TableColumns";
 import './InstrumentsTable.scss';
 import TableHeaders from "./TableHeaders/TableHeaders";
@@ -7,10 +7,15 @@ import {RootState} from "../../../store";
 
 const InstrumentsTable = () => {
     const [scrollX, setScrollX] = useState(0);
-    const allColumns = useSelector((state: RootState) => state.watchlist.columns.filter(col => !col.hidden));
+    const [frozenColumns, setFrozenColumns] = useState([]);
+    const [otherColumns, setOtherColumns] = useState([]);
+    const columns = useSelector((state: RootState) => state.watchlist.columns);
 
-    const frozenColumns = allColumns.filter(column => column.frozen);
-    const otherColumns = allColumns.filter(column => !column.frozen);
+    useEffect(() => {
+        const allColumns = columns.filter((col => !col.hidden));
+        setFrozenColumns(allColumns.filter(column => column.frozen));
+        setOtherColumns(allColumns.filter(column => !column.frozen));
+    }, [columns]);
 
     const onScroll = useCallback( (e: React.UIEvent<HTMLElement>) => {
         setScrollX(e.currentTarget.scrollLeft)

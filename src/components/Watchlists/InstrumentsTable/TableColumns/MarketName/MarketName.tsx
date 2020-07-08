@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './MarketName.scss';
+import ReactTooltip from "react-tooltip";
 
 interface Props {
   marketName: string;
@@ -12,6 +13,8 @@ const MarketName = (props: Props) => {
   const [marketName, setMarketName] = useState(props.marketNamesPreference);
   const [marketNamesPreference, setMarketNamesPreference] = useState(props.marketNamesPreference);
   const {marketName: propsMarketName, marketNamesPreference: propsMarketNamesPreference} = props;
+  const inputRef = useRef(null);
+  const ellipsisRef = useRef(null);
 
   useEffect(() => {
     setMarketName(propsMarketName);
@@ -35,6 +38,12 @@ const MarketName = (props: Props) => {
     }
   };
 
+  const onEdit = () => {
+    setTimeout(() => {
+      inputRef.current.select();
+    }, 0)
+  };
+
   return(
     <div className='marketNameContainer'>
       {isEditing ?
@@ -45,11 +54,19 @@ const MarketName = (props: Props) => {
           defaultValue={marketNamesPreference || marketName}
           placeholder={marketName}
           autoFocus
+          ref={inputRef}
         /> :
-        <span>{marketNamesPreference || marketName}</span>
+          <>
+            <p ref={ellipsisRef} data-tip="" data-for={props.marketName}>{marketNamesPreference || marketName}</p>
+            {ellipsisRef.current && ellipsisRef.current.scrollWidth > ellipsisRef.current.offsetWidth ? (
+                <ReactTooltip id={props.marketName} effect="solid">
+                  <small>{marketNamesPreference || marketName}</small>
+                </ReactTooltip>
+            ) : null}
+          </>
       }
       <div className='edit' onClick={()=> setIsEditing(!isEditing)}>
-        <img src="/assets/edit.svg" alt="Edit"/>
+        <img src="/assets/edit.svg" alt="Edit" onClick={onEdit}/>
       </div>
     </div>
   );

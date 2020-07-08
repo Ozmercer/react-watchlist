@@ -18,7 +18,7 @@ interface Props {
 
 const TableColumns = (props: Props) => {
     const instruments = useSelector((state: RootState) => state.watchlist.filteredInstruments);
-    const getMarketNickNames = useSelector((state: RootState) => state.watchlist.marketCustomNamesMap);
+    const marketCustomNamesMap = useSelector((state: RootState) => state.watchlist.marketCustomNamesMap);
     const [rows, setRows] = useState([]);
     const dispatch = useDispatch();
 
@@ -29,13 +29,14 @@ const TableColumns = (props: Props) => {
     };
 
     const setNewMarketName = useCallback((marketName: string, newMarketName: string) => {
-        if (newMarketName) {
-            getMarketNickNames.set(marketName, newMarketName);
+        let newMap = {...marketCustomNamesMap};
+        if (newMarketName && newMarketName !== marketName) {
+            newMap[marketName] = newMarketName;
         } else {
-            getMarketNickNames.delete(marketName);
+            delete newMap[marketName];
         }
-        dispatch(actions.setMarketCustomNames(getMarketNickNames))
-    }, [getMarketNickNames, dispatch]);
+        dispatch(actions.setMarketCustomNames(newMap))
+    }, [marketCustomNamesMap, dispatch]);
 
     useEffect(() => {
         const newRows = instruments.map((instrument, instrumentIndex) => {
@@ -46,7 +47,7 @@ const TableColumns = (props: Props) => {
                         row.push(
                             getSpan(<MarketName
                                     setNewMarketName={setNewMarketName}
-                                    marketNamesPreference={getMarketNickNames.get(instrument.instrumentName)}
+                                    marketNamesPreference={marketCustomNamesMap[instrument.instrumentName]}
                                     marketName={instrument.instrumentName}/>,
                                 titleIndex, title.classes));
                         break;
@@ -80,6 +81,11 @@ const TableColumns = (props: Props) => {
                     case 'rsi':
                         row.push(getSpan(<RsiField rsi={instrument.rsi}/>, titleIndex, title.classes));
                         break;
+                    case 'changeDay':
+                    case 'changeWeek':
+                    case 'changeMonth':
+                        row.push(getSpan(instrument[title.name], titleIndex, title.classes));
+                        break;
                     default:
                         row.push(getSpan(instrument.value, titleIndex, title.classes));
                 }
@@ -93,7 +99,7 @@ const TableColumns = (props: Props) => {
         });
 
         setRows(newRows);
-    }, [instruments, columnTitles, setNewMarketName, getMarketNickNames]);
+    }, [instruments, columnTitles, setNewMarketName, marketCustomNamesMap]);
 
     const classes = ['body', props.frozen ? 'frozen' : 'scroll'];
 

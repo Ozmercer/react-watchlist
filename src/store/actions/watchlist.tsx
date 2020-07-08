@@ -38,7 +38,7 @@ export const reorderColumns = (columns: Column[]) => {
   }
 };
 
-export const setMarketCustomNames = (map: Map<string, string>) => {
+export const setMarketCustomNames = (map: {[key: string]: string}) => {
   return {
     type: ActionTypes.SET_MARKET_CUSTOM_NAMES,
     map
